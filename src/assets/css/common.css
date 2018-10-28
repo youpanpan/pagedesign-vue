@@ -1,0 +1,13 @@
+body,ul,li{
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+.el-header{
+    padding: 0;
+}
+
+ul,li{
+    list-style: none;
+}
