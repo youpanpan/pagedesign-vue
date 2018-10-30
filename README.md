@@ -45,5 +45,5 @@ npm run build
 
 ## 后台支持
 > 如果不需要后台支持，则不能预览与保存，后台使用了SpringBoot进行开发  
-> 地址为：[在线页面设计工具后台](https://www.baicu.com)， 后台服务地址需要通过src/main.js中进行配置。
+> 地址为：[在线页面设计工具后台](https://github.com/youpanpan/pagedesign-vue-springboot)， 后台服务地址需要通过src/main.js中进行配置。
 
