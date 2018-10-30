@@ -3,7 +3,7 @@
 
         <!-- 设计界面 -->
         <div class="pagedesign-container" 
-            :style="{width: width + 'px', height: height + 'px', backgroundColor: backgroundColor, marginLeft: 78 + 'px', marginTop: 78 + 'px', zIndex: zIndex}" 
+            :style="{width: width + 'px', height: height + 'px', backgroundColor: backgroundColor,  margin: margin, border: border, zIndex: zIndex}" 
             :id="id" 
             @drop="drop" 
             @dragover="allowDrop" 
@@ -67,6 +67,12 @@
                 height: 768,
                 backgroundColor: '#fff',
                 zIndex: 1,
+
+                //margin
+                margin: '78px 0 0 78px',
+                //border
+                border: '2px dashed #ccc',
+
 
                 //窗口滚动距离
                 scrollTop: 0,
@@ -176,8 +182,6 @@
                 //停止传播
                 event.stopPropagation();
             },
-
-            
 
             /**
              * 页面双击事件
@@ -481,7 +485,5 @@
 <style scoped>
     .pagedesign-container{
         position: relative;
-        margin: 40px;
-        border: 2px dashed #ccc;
     }
 </style>

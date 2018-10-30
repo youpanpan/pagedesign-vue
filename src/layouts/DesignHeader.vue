@@ -9,7 +9,6 @@
             active-text-color="#ffd04b">
             <el-menu-item index="5" @click="$emit('save')"><i class="el-icon-document"></i>保存</el-menu-item>  
             <el-menu-item index="4" @click="$emit('pre-view')"><i class="el-icon-view"></i>预览</el-menu-item>
-            <el-menu-item index="/">首页</el-menu-item>
         </el-menu>
     </template>
     

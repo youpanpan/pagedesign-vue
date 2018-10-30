@@ -43,11 +43,6 @@
                       <page-ruler :width="pageWidth" :height="pageHeight" :page-width="pageWidth" :page-height="pageHeight" :scroll-left="scrollLeftNum" :scroll-top="scrollTopNum"></page-ruler>
 
                       <!-- 页面设计主界面 -->
-
-                      <!--预览窗口-->
-                      <el-dialog title="" width="100%" :visible.sync="viewVisible" @close="viewVisible = false" :modal="true" :fullscreen="false" class="view-dialog" style="background-color: #fff;" >
-                        
-                      </el-dialog>
                   </div>
                 
               </el-main>
@@ -88,9 +83,6 @@
           scrollLeftNum: 0,
           scrollTopNum: 0,
 
-          //预览属性
-          viewVisible: false,
-
           //页面列表属性
           pages: [],
           defaultProps: {
@@ -101,6 +93,9 @@
           //页面组件
           pageComponent: null,
           pageId: '',
+
+          //定时器
+          timeIndex: 0,
         };
       },
       
@@ -254,21 +249,24 @@
         * 页面预览
         */
         preView () {
-          var pageDesignEl = document.querySelector(".pagedesign-container");
-          var width = pageDesignEl.style.width;
-          var preViewDialog = document.querySelector(".view-dialog");
-          var innerHtml = '';
-          innerHtml += '<div style="width:'+ width +';height:'+ pageDesignEl.style.height +';margin: 0 auto;position: relative;background-color:'+ pageDesignEl.style.backgroundColor  +';">';
-          innerHtml += document.querySelector("#pagedesign").innerHTML;
-          innerHtml += '</div>';
-          preViewDialog.innerHTML = innerHtml;
-          this.viewVisible = true;
+          //clearInterval(this.timeIndex);
+
+          var current = this;
+          this.save(function(pageId) {
+
+            //打开新的窗口
+            let routeData = current.$router.resolve({
+              name: "view",
+              params: {pageId: pageId}
+            });
+            window.open(routeData.href, '_blank');
+          });
         },
 
         /**
          * 页面保存
         */
-        save() {
+        save(callback) {
           if (this.pageComponent === null) {
             return false;
           }
@@ -278,25 +276,25 @@
 
           let current = this;
           if (this.pageId === '') {
-              this.$prompt('请输入页面名称', '提示', {
+              this.$prompt('请输入页面名称', '保存页面', {
                 confirmButtonText: '确定',
                 inputPattern: /.+/,
                 inputErrorMessage: '页面名称不能为空'
               }).then(({ value }) => {
                 page['pageName'] = value;
-                current.savePage(page);
+                current.savePage(page, callback);
               }).catch(() => {
                 return false;
               });
           } else {
-            current.savePage(page);
+            current.savePage(page, callback);
           }
         },
 
         /**
         * 保存页面
         */
-        savePage (page) {
+        savePage (page, callback) {
           //页面属性
           page['componentAttrs'] = [];
           let index = 0;
@@ -345,7 +343,7 @@
           var current = this;
           axios.post('/pages', JSON.stringify(page))
               .then(function(response) {
-                if (page['pageName'] === '') {
+                if (!(page['pageName'] == undefined)) {
                   current.queryPages();
                 }
                 current.$message({
@@ -353,9 +351,17 @@
                   message: '页面保存成功',
                   type: 'success'
                 });
+
+                if (callback != undefined && callback instanceof Function) {
+                  callback(response.data.data);
+                }
               })
               .catch(function(error) {
-                console.log(error);
+                current.$message({
+                  showClose: true,
+                  message: '页面保存失败',
+                  type: 'error'
+                });
             });
         },
         
@@ -453,13 +459,13 @@
         this.$forceUpdate();
 
         //定时保存页面
-        setInterval(() => { 
+        this.timeIndex = setInterval(() => { 
             if (this.pageId != '') {
               this.$message({
                 showClose: true,
                 message: '正在保存页面...'
               });
-              //this.save();
+              this.save();
             }
         }, 60000);
 

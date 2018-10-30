@@ -15,13 +15,13 @@
 
         <ul class="footer-list">
             <li>
-                <a href="#">编程之道</a>
+                <a href="http://www.chengxuunion.com">编程之道</a>
             </li>
             <li>
-                <a href="#">CSDN</a>
+                <a href="https://www.csdn.net/">CSDN</a>
             </li>
             <li>
-                <a href="#">开源中国</a>
+                <a href="https://www.oschina.net/">开源中国</a>
             </li>
         </ul>
 

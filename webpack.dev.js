@@ -8,8 +8,15 @@ module.exports = merge(common, {
     devtool: 'inline-source-map',
     devServer: {
         port: 9090,
-        contentBase: './dist',
-        hot: true
+        contentBase: '/dist',
+        hot: true,
+        // historyApiFallback: true,
+        historyApiFallback: {
+            rewrites: [
+                { from: /^\/view\/$/, to: '/' }
+            ]
+        },
+        publicPath: '/page',
     },
     plugins: [
         new webpack.NamedModulesPlugin(),

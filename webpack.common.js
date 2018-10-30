@@ -24,7 +24,8 @@ module.exports = {
         //filename: '[name].bundle.js',
         filename: '[name].[hash].js',
         chunkFilename: '[name].[hash].bundle.js',
-        path: path.resolve(__dirname, 'dist')
+        path: path.resolve(__dirname, '/page/dist'),
+        publicPath: '/page/dist'
     },
     resolve: {
         alias: {
